@@ -1,9 +1,9 @@
 '''
-🧑‍💻 Static Website Scrapping 🧑‍💻
+🧑‍💻 Static Website Scrapeing 🧑‍💻
 url = https://weworkremotely.com/remote-full-time-jobs#job-listings
 목표 = 구인 사이트인 weworkremotely의 full-time 카테고리에 올라온 모든 구인글에서 회사명, 직무명, full-time 여부, 근무지, url 추출
 
-scrapping 할 부분
+scrapeing 할 부분
 1. section 태그 안의 모든 li
 2. li 중 필요 없는 데이터를 담고 있는 첫번째와 마지막 li 제외
 3. li 태그 안의 a 태그 안의 span 태그들 중 회사 이름, 직무명, Full-time 여부, 근무지 추출
@@ -66,7 +66,7 @@ def get_pages(url):
 
 total_pages = get_pages('https://weworkremotely.com/remote-full-time-jobs?page=1')
 
-# 모든 페이지 scrapping
+# 모든 페이지 scrapeing
 for x in range(total_pages):
   url = f"https://weworkremotely.com/remote-full-time-jobs?page={x+1}"
   scrape_page(url)
