@@ -14,6 +14,7 @@ playwright 진행 과정
 from playwright.sync_api import sync_playwright
 import time
 from bs4 import BeautifulSoup
+import csv
 
 p = sync_playwright().start()
 
@@ -22,25 +23,27 @@ browser = p.chromium.launch(headless = False)
 # 브라우저 새 탭을 열어 구글 페이지로 이동
 page = browser.new_page()
 page.goto('https://www.wanted.co.kr/')
-time.sleep(3)
+time.sleep(2)
 
 page.click('button.Aside_searchButton__rajGo')
-time.sleep(3)
+time.sleep(2)
 
 page.get_by_placeholder('검색어를 입력해 주세요.').fill('flutter')
-time.sleep(3)
+time.sleep(2)
 
 page.keyboard.down('Enter')
-time.sleep(5)
+time.sleep(2)
 
 page.click('a#search_tab_position')
-time.sleep(5)
+time.sleep(3)
 
 for x in range(5):
   page.keyboard.down('End')
-  time.sleep(3)
+  time.sleep(2)
+
 
 content = page.content()
+p.stop()
 
 soup = BeautifulSoup(content, 'html.parser')
 jobs = soup.find_all('div', class_ = 'JobCard_container__REty8')
@@ -61,7 +64,13 @@ for job in jobs:
   }
   jobs_db.append(job)
 
-print(jobs_db)
-print(len(jobs_db))
 
-p.stop()
+
+# csv 파일을 생성해 데이터 내보내기
+file = open('./#6_Job Scraper/jobs.csv', mode='w', encoding='utf-8', newline = '')
+writer = csv.writer(file)
+writer.writerow(['Title', 'Company', 'Reward', 'Link'])
+
+for job in jobs_db:
+  writer.writerow(job.values())
+file.close()
